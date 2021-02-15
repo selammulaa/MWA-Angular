@@ -1,0 +1,116 @@
+<div class="container" style="" >
+    <h3 style="padding: 40px 20px 20px 0px">
+         <span *ngIf="isNew && !isTeacher">Profile</span>
+         <span *ngIf="isNew && isTeacher">Add Student</span>
+         <span *ngIf="!isNew">Update Profile</span>
+    </h3>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row .mx-auto border" style="padding-top:20px; padding-bottom: 20px;">
+                <div class="col-2">
+                    <img  id="profile-img" src="{{imgSrc}}" alt="image" width="180px"  style="padding-right: 20px;">
+                </div>
+                <div class="col-10">
+                    <form method="post" action="/login">
+                        <div class="form-group">
+                          <label for="firstName">First Name</label>
+                          <input type="text" class="form-control" name="firstName" placeholder="First Name" [(ngModel)]="student.firstName">
+                        </div>
+        
+                        <div class="form-group">
+                          <label for="lastName">Last Name</label>
+                          <input type="text" class="form-control" name="lastName" placeholder="Last Name" [(ngModel)]="student.lastName">
+                        </div>
+        
+        
+                        <div class="form-group">
+                            <label for="id">Student Id</label>
+                            <input type="number" class="form-control" name="id" placeholder="ID" [(ngModel)]="student.studentId">
+                        </div>
+            
+        
+                        <div class="form-group" *ngIf="isNew && !isTeacher">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="student.password">
+                        </div>
+        
+                        <div class="form-group" *ngIf="isNew && !isTeacher">
+                            <label for="repeatPassword">Repeate Password</label>
+                            <input type="password" class="form-control" name="repeatPassword" [(ngModel)]="student.repeatPassword" placeholder="Repeate Password">
+                        </div>
+                        
+                        <div class="form-group" *ngIf="!isTeacher">
+                            <label for="pricure">Picture</label>
+                            <input type="file" class="form-control-file" name="picture" name="picture" [(ngModel)]="student.picture" (change)="picture($event)">
+                        </div>
+                         
+                        <span *ngIf="isNew && !isTeacher">
+                            <button class="btn btn-outline-info" (click)="createProfile()" style="margin-right: 5px;">Create Profile</button>
+                            <button class="btn btn-outline-secondary" (click)="back()" href="/login">Back</button>
+            
+                        </span>
+                        
+                        <span *ngIf="!isNew">
+                            <a class="btn btn-outline-info" (click)="update()"  style="margin-right: 5px;">Update Profile</a>
+                            <a *ngIf="!isTeacher" class="btn btn-outline-danger" (click)="remove()"  style="margin-right: 5px;">Remove Profile</a>
+                            <a class="btn btn-outline-secondary" (click)="back()"  style="margin-right: 5px;">Back</a>
+                        </span>
+        
+                        <span  *ngIf="isNew && isTeacher">
+                            <a class="btn btn-outline-info" (click)="add()"  style="margin-right: 5px;">Add Student</a>
+                            <a class="btn btn-outline-secondary" (click)="back()"  style="margin-right: 5px;">Back</a>
+        
+                        </span>
+                      </form>
+                </div>
+                
+            </div>
+        </div>
+
+       
+    </div>
+
+   
+    
+    
+
+    <div class=" row" style="margin-top: 20px;" *ngIf="!isNew">
+       <div class="col-7 border">
+        <h4 style="padding-top: 10px ">Avaliable Courses</h4> 
+
+    
+      
+
+        <ul *ngIf="!isNew" >
+             <li style="margin-bottom: 10px;" *ngFor="let course of allCourses;">
+                 <button class="btn btn-sm btn-outline-secondary" (click)="register(course)">Register</button>
+ 
+                  {{course.courseNumber}} - {{course.courseName}} [{{course.year}} | {{course.semester}}]
+                  <!-- <input type="text" placeholder="registration code"> -->
+             </li>
+             
+        </ul>
+       </div>
+       
+
+       <div class="col-5">
+        <div class="border">
+            <h4 style="margin: 10px;">Registered Courses</h4>
+            <ul>
+                <li *ngFor="let course of student.course;" style="margin-bottom: 10px;">
+                    <button class="btn btn-sm btn-outline-danger" *ngIf="isTeacher" (click)="removeCourse(course)">Remove</button> 
+
+                    {{course.courseNumber}} - {{course.courseName}} 
+                </li>
+            </ul>
+        </div>
+        </div>
+    
+        
+
+    </div>
+
+    
+</div>
+
